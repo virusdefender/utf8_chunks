@@ -1,0 +1,39 @@
+{
+  "name": "utf8_chunks",
+  "version": "1.0.0",
+  "description": "Iterate bytes and get valid / invalid utf8 chunks",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "test": "jest",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "utf8",
+    "utf-8",
+    "iterator",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "@types/jest": "^29.5.14",
+    "@typescript-eslint/eslint-plugin": "^8.33.1",
+    "eslint": "^8.57.1",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.33.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.4"
+  },
+  "dependencies": {
+  }
+}
