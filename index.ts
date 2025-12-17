@@ -133,4 +133,16 @@ class Utf8ChunksIterator implements Iterator<Utf8Chunk> {
     }
 }
 
-export { Utf8Chunks, Utf8Chunk };
+function isUtf8(bytes: Uint8Array): boolean {
+    const chunks = new Utf8Chunks(bytes);
+    
+    for (const chunk of chunks) {
+        if (chunk.invalid.length > 0) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+export { Utf8Chunks, Utf8Chunk, isUtf8 };

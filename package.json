@@ -1,6 +1,6 @@
 {
   "name": "utf8_chunks",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Iterate bytes and get valid / invalid utf8 chunks",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,15 @@
-import { Utf8Chunks } from './index';
+import { Utf8Chunks, isUtf8 } from './index';
 
 describe('Utf8Chunks', () => {
+  it('should handle empty input', () => {
+    const bytes = new Uint8Array([]);
+    const chunks = new Utf8Chunks(bytes);
+    const result = Array.from(chunks);
+
+    expect(result).toHaveLength(0);
+    expect(isUtf8(bytes)).toBe(true);
+  });
+
   it('should handle ASCII characters', () => {
     const text = 'hello';
     const bytes = new TextEncoder().encode(text);
@@ -10,6 +19,8 @@ describe('Utf8Chunks', () => {
     expect(result).toHaveLength(1);
     expect(result[0].valid).toBe(text);
     expect(result[0].invalid).toHaveLength(0);
+
+    expect(isUtf8(bytes)).toBe(true);
   });
 
   it('should handle multi-language UTF-8 characters', () => {
@@ -21,6 +32,8 @@ describe('Utf8Chunks', () => {
     expect(result).toHaveLength(1);
     expect(result[0].valid).toBe(text);
     expect(result[0].invalid).toHaveLength(0);
+
+    expect(isUtf8(bytes)).toBe(true);
   });
 
   it('should handle invalid UTF-8 sequences with single byte errors', () => {
@@ -41,6 +54,8 @@ describe('Utf8Chunks', () => {
     expect(result[1].invalid).toEqual(new Uint8Array([0xff]));
     expect(result[2].valid).toBe(' Goodbye');
     expect(result[2].invalid).toHaveLength(0);
+
+    expect(isUtf8(bytes)).toBe(false);
   });
 
   it('should handle invalid UTF-8 sequences with multi-byte errors', () => {
@@ -65,6 +80,8 @@ describe('Utf8Chunks', () => {
     expect(result[2].invalid).toEqual(new Uint8Array([0xe6, 0x83]));
     expect(result[3].valid).toBe(' Goodbye');
     expect(result[3].invalid).toHaveLength(0);
+
+    expect(isUtf8(bytes)).toBe(false);
   });
 
   it('should handle 4-byte UTF-8 sequences', () => {
@@ -94,6 +111,8 @@ describe('Utf8Chunks', () => {
     expect(result[3].invalid).toEqual(new Uint8Array([0x80]));
     expect(result[4].valid).toBe('foo\u{10000}bar');
     expect(result[4].invalid).toHaveLength(0);
+
+    expect(isUtf8(bytes)).toBe(false);
   });
 
   it('should handle surrogate pairs', () => {
@@ -125,5 +144,7 @@ describe('Utf8Chunks', () => {
     expect(result[5].invalid).toEqual(new Uint8Array([0xbf]));
     expect(result[6].valid).toBe('bar');
     expect(result[6].invalid).toHaveLength(0);
+
+    expect(isUtf8(bytes)).toBe(false);
   });
 });
